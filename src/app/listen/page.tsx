@@ -3,11 +3,22 @@ import { db } from "@/db";
 import { founders } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { SectionLabel } from "@/components/shared/SectionLabel";
+import { PodcastSeriesSchema } from "@/components/seo/JsonLd";
 
 export const metadata = {
-  title: "Listen | Seeker of Story Podcast",
+  title: "Listen — SoS Podcast",
   description:
-    "SoS Podcast — founder stories with no filters, no gatekeeping. Listen on Spotify, YouTube, and Apple Podcasts.",
+    "SoS Podcast — DFW founder stories with no filters, no gatekeeping. Listen on Spotify, YouTube, and Apple Podcasts.",
+  openGraph: {
+    title: "SoS Podcast | Seeker of Story",
+    description: "Founders pull back the curtain. No filters, no gatekeeping. Listen free on all platforms.",
+    url: "https://seekerofstory.com/listen",
+    type: "music.playlist",
+  },
+  alternates: {
+    canonical: "https://seekerofstory.com/listen",
+    types: { "application/rss+xml": "https://seekerofstory.com/feed.xml" },
+  },
 };
 
 const SHOW_LINKS = {
@@ -50,6 +61,8 @@ export default async function ListenPage() {
 
   return (
     <>
+      <PodcastSeriesSchema />
+
       {/* Header */}
       <section className="bg-charcoal py-22 px-8 text-center">
         <SectionLabel light>SoS Podcast</SectionLabel>

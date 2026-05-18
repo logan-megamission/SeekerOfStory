@@ -4,8 +4,34 @@ import Image from "next/image";
 import { db } from "@/db";
 import { posts, founders } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { BlogPostingSchema } from "@/components/seo/JsonLd";
+import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const [row] = await db
+      .select({ title: posts.title, excerpt: posts.excerpt, coverImageUrl: posts.coverImageUrl, publishedAt: posts.publishedAt })
+      .from(posts).where(eq(posts.slug, slug)).limit(1);
+    if (!row) return {};
+    return {
+      title: row.title,
+      description: row.excerpt ?? undefined,
+      openGraph: {
+        title: row.title,
+        description: row.excerpt ?? undefined,
+        url: `https://seekerofstory.com/blog/${slug}`,
+        type: "article",
+        images: row.coverImageUrl ? [{ url: row.coverImageUrl, width: 1200, height: 630 }] : [],
+        ...(row.publishedAt ? { publishedTime: row.publishedAt.toISOString() } : {}),
+      },
+      twitter: { card: "summary_large_image", title: row.title, description: row.excerpt ?? undefined },
+      alternates: { canonical: `https://seekerofstory.com/blog/${slug}` },
+    };
+  } catch { return {}; }
+}
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
@@ -51,6 +77,17 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
+      <BlogPostingSchema
+        title={post.title}
+        slug={slug}
+        excerpt={post.excerpt}
+        publishedAt={post.publishedAt}
+        coverImageUrl={post.coverImageUrl}
+        authorName={post.founderName}
+        authorSlug={post.founderSlug}
+        sectorTags={post.sectorTags}
+      />
+
       {post.coverImageUrl && (
         <div className="relative w-full h-[400px]">
           <Image src={post.coverImageUrl} alt={post.title} fill className="object-cover" />

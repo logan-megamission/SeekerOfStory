@@ -1,11 +1,18 @@
 import Image from "next/image";
 import { BtnPrimary } from "@/components/shared/BtnPrimary";
 import { SectionLabel } from "@/components/shared/SectionLabel";
+import { LocalBusinessSchema } from "@/components/seo/JsonLd";
 
 export const metadata = {
-  title: "About SOS | Seeker of Story",
+  title: "About SOS",
   description:
     "Why Seeker of Story exists — The Goodwill Principle, Susy Gordon, and a mission to make mentorship free for every career transitioner in DFW.",
+  openGraph: {
+    title: "About Seeker of Story",
+    description: "The Goodwill Principle: founders give their blueprint, seekers find their path. Free. Always. Fort Worth, TX.",
+    url: "https://seekerofstory.com/about",
+  },
+  alternates: { canonical: "https://seekerofstory.com/about" },
 };
 
 const PILLARS = [
@@ -29,6 +36,7 @@ const PILLARS = [
 export default function AboutPage() {
   return (
     <>
+      <LocalBusinessSchema />
       {/* Dark hero */}
       <section className="bg-charcoal py-22 px-8 text-center">
         <SectionLabel light>Our Mission</SectionLabel>

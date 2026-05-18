@@ -8,6 +8,7 @@ import { VideoEmbed } from "@/components/shared/VideoEmbed";
 import { BlueprintGrid } from "@/components/founders/BlueprintGrid";
 import { JourneyPills } from "@/components/founders/JourneyPills";
 import { BtnPrimary } from "@/components/shared/BtnPrimary";
+import { FounderSchema, PodcastEpisodeSchema } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -15,15 +16,42 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const [founder] = await db
-      .select({ name: founders.name, businessName: founders.businessName, whoTheyWere: founders.whoTheyWere })
+    const [f] = await db
+      .select({
+        name: founders.name,
+        businessName: founders.businessName,
+        whoTheyWere: founders.whoTheyWere,
+        transitionFrom: founders.transitionFrom,
+        transitionTo: founders.transitionTo,
+        sector: founders.sector,
+        dfwCity: founders.dfwCity,
+      })
       .from(founders)
       .where(eq(founders.slug, slug))
       .limit(1);
-    if (!founder) return {};
+    if (!f) return {};
+    const title = `${f.name} — ${f.businessName}`;
+    const description =
+      f.whoTheyWere?.slice(0, 155) ??
+      `${f.transitionFrom ?? "Career professional"} → ${f.transitionTo ?? "Founder"} in ${f.dfwCity}, TX. A Seeker of Story founding story.`;
     return {
-      title: `${founder.name} — ${founder.businessName} | Seeker of Story`,
-      description: founder.whoTheyWere?.slice(0, 160) ?? undefined,
+      title,
+      description,
+      keywords: [f.name, f.businessName, f.sector, f.dfwCity, "DFW founder", "entrepreneur story", "mentor"],
+      openGraph: {
+        title,
+        description,
+        url: `https://seekerofstory.com/founders/${slug}`,
+        type: "profile",
+        images: [{ url: `/api/og/founder?slug=${slug}`, width: 1200, height: 630 }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [`/api/og/founder?slug=${slug}`],
+      },
+      alternates: { canonical: `https://seekerofstory.com/founders/${slug}` },
     };
   } catch {
     return {};
@@ -51,6 +79,28 @@ export default async function FounderPage({ params }: Props) {
 
   return (
     <>
+      <FounderSchema
+        name={founder.name}
+        businessName={founder.businessName}
+        slug={founder.slug}
+        sector={founder.sector}
+        dfwCity={founder.dfwCity}
+        websiteUrl={founder.websiteUrl}
+        whoTheyWere={founder.whoTheyWere}
+        youtubeUrl={founder.youtubeUrl}
+        spotifyEpisodeUrl={founder.spotifyEpisodeUrl}
+        applePodcastUrl={founder.applePodcastUrl}
+      />
+      <PodcastEpisodeSchema
+        founderName={founder.name}
+        founderSlug={founder.slug}
+        businessName={founder.businessName}
+        youtubeUrl={founder.youtubeUrl}
+        spotifyEpisodeUrl={founder.spotifyEpisodeUrl}
+        applePodcastUrl={founder.applePodcastUrl}
+        publishedAt={founder.publishedAt}
+      />
+
       {/* Header */}
       <section className="bg-charcoal">
         <div className="max-w-[820px] mx-auto">
