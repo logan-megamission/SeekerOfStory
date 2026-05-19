@@ -1,23 +1,60 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 import { db } from "@/db";
 import { founders } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-const client = new Anthropic();
+type FounderRow = {
+  id: number;
+  slug: string;
+  name: string;
+  businessName: string;
+  sector: string;
+  dfwCity: string;
+  transitionFrom: string | null;
+  transitionTo: string | null;
+  industryTags: string[];
+  whoTheyWere: string | null;
+  storyNumber: number | null;
+};
+
+function scoreMatch(founder: FounderRow, from: string, to: string): number {
+  const toWords = to.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+  const fromWords = from.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+
+  const searchable = [
+    founder.transitionFrom ?? "",
+    founder.transitionTo ?? "",
+    founder.sector,
+    founder.businessName,
+    founder.dfwCity,
+    ...(founder.industryTags ?? []),
+    founder.whoTheyWere ?? "",
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  let score = 0;
+  for (const word of toWords) if (searchable.includes(word)) score += 3;
+  for (const word of fromWords) if (searchable.includes(word)) score += 1;
+  return score;
+}
+
+function buildWhy(founder: FounderRow): string {
+  if (founder.transitionFrom && founder.transitionTo) {
+    return `${founder.name} made the leap from ${founder.transitionFrom} to ${founder.transitionTo} — their blueprint maps directly to where you want to go.`;
+  }
+  return `${founder.name} built ${founder.businessName} from the ground up in the ${founder.sector} sector and has documented every step of the journey.`;
+}
 
 export async function POST(req: NextRequest) {
   try {
     const { from, to } = await req.json();
 
-    if (!to || to.trim().length === 0) {
-      return NextResponse.json(
-        { error: "desired direction is required" },
-        { status: 400 }
-      );
+    if (!to?.trim()) {
+      return NextResponse.json({ error: "desired direction is required" }, { status: 400 });
     }
 
-    const publishedFounders = await db
+    const publishedFounders: FounderRow[] = await db
       .select({
         id: founders.id,
         slug: founders.slug,
@@ -27,6 +64,8 @@ export async function POST(req: NextRequest) {
         dfwCity: founders.dfwCity,
         transitionFrom: founders.transitionFrom,
         transitionTo: founders.transitionTo,
+        industryTags: founders.industryTags,
+        whoTheyWere: founders.whoTheyWere,
         storyNumber: founders.storyNumber,
       })
       .from(founders)
@@ -36,45 +75,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ matches: [] });
     }
 
-    const message = await client.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1024,
-      system: `You are the Seeker of Story mentor-matching AI for DFW entrepreneurs.
-Match seekers to the most relevant founders in our database.
-Return ONLY a valid JSON array with this format:
-[{"id": <founder_id>, "slug": "<slug>", "why": "<1-2 warm encouraging sentences explaining the connection>"}]
-Always return at least one result. Find the most meaningful connection even if not a perfect match.`,
-      messages: [
-        {
-          role: "user",
-          content: `Seeker background: "${from || "not specified"}"
-Seeker goal: "${to}"
+    const matches = publishedFounders
+      .map((founder) => ({
+        id: founder.id,
+        slug: founder.slug,
+        why: buildWhy(founder),
+        founder,
+        score: scoreMatch(founder, from ?? "", to),
+      }))
+      .sort((a, b) => b.score - a.score)
+      .map(({ score: _score, ...rest }) => rest);
 
-Available founders:
-${JSON.stringify(publishedFounders, null, 2)}
-
-Return a JSON array of matched founders ordered by relevance, with a warm "why" explanation for each.`,
-        },
-      ],
-    });
-
-    const text = message.content
-      .map((c) => (c.type === "text" ? c.text : ""))
-      .join("")
-      .replace(/```json|```/g, "")
-      .trim();
-
-    const matches = JSON.parse(text);
-
-    // Enrich with excerpt from full founder data
-    const enriched = await Promise.all(
-      matches.map(async (match: { id: number; slug: string; why: string }) => {
-        const founder = publishedFounders.find((f) => f.id === match.id);
-        return { ...match, founder };
-      })
-    );
-
-    return NextResponse.json({ matches: enriched });
+    return NextResponse.json({ matches });
   } catch (error) {
     console.error("Search error:", error);
     return NextResponse.json({ error: "Search failed" }, { status: 500 });
