@@ -1,10 +1,40 @@
 import { db } from "@/db";
 import { founders } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 const SEED_FOUNDERS = [
   {
-    slug: "carrie-carter",
+    slug: "susy-gordon",
     storyNumber: 1,
+    name: "Susy Gordon",
+    businessName: "Mega Mission Media",
+    sector: "Media" as const,
+    dfwCity: "Fort Worth" as const,
+    industryTags: ["Media", "Production", "Storytelling"],
+    transitionFrom: "Story Collector",
+    transitionTo: "Media Company Founder",
+    whoTheyWere:
+      "Susy Gordon is a story collector. She exists to find people's stories and share them so others can find their path. The car is her studio. The road is her stage. Every passenger carries a blueprint someone else needs.",
+    whatTheyBuilt:
+      "Mega Mission Media — a full media and production company powered by a mission to collect, document, and share the stories that change lives. What started in ministry evolved into a platform that gives founders a voice and seekers a blueprint.",
+    whyTheyBuiltIt:
+      "Because there is life and death in the power of the tongue. And the founder who shares their story has already spoken life into someone.",
+    blueprint: [
+      { category: "Website", value: "megamissionmedia.com", url: "https://megamissionmedia.com" },
+      { category: "Platform", value: "Seeker of Story" },
+      { category: "Mission", value: "Matthew 7:7 — Seek and you shall find" },
+    ],
+    youtubeUrl: null,
+    spotifyEpisodeUrl: null,
+    applePodcastUrl: null,
+    buzzsproutUrl: null,
+    websiteUrl: "https://megamissionmedia.com",
+    status: "published" as const,
+    publishedAt: new Date("2026-05-12"),
+  },
+  {
+    slug: "carrie-carter",
+    storyNumber: 2,
     name: "Carrie Carter",
     businessName: "Cowtown Tour Company · ACN Entrepreneur",
     sector: "Hospitality" as const,
@@ -34,7 +64,7 @@ const SEED_FOUNDERS = [
   },
   {
     slug: "yoel-zehaie",
-    storyNumber: 2,
+    storyNumber: 3,
     name: "Yoel Zehaie",
     businessName: "Zehaie Law",
     sector: "Legal" as const,
@@ -62,16 +92,48 @@ const SEED_FOUNDERS = [
     status: "published" as const,
     publishedAt: new Date("2026-05-12"),
   },
+  {
+    slug: "lena-killion",
+    storyNumber: 4,
+    name: "Lena Killion",
+    businessName: "Coming Soon",
+    sector: "Other" as const,
+    dfwCity: "Fort Worth" as const,
+    industryTags: [],
+    transitionFrom: null,
+    transitionTo: null,
+    whoTheyWere: null,
+    whatTheyBuilt: null,
+    whyTheyBuiltIt: null,
+    blueprint: [],
+    youtubeUrl: null,
+    spotifyEpisodeUrl: null,
+    applePodcastUrl: null,
+    buzzsproutUrl: null,
+    websiteUrl: null,
+    status: "published" as const,
+    publishedAt: new Date("2026-05-12"),
+  },
 ];
 
 async function seed() {
   console.log("Seeding founders...");
   for (const founder of SEED_FOUNDERS) {
-    await db
-      .insert(founders)
-      .values(founder)
-      .onConflictDoNothing();
-    console.log(`  ✓ ${founder.name}`);
+    const existing = await db
+      .select({ id: founders.id })
+      .from(founders)
+      .where(eq(founders.slug, founder.slug));
+
+    if (existing.length > 0) {
+      await db
+        .update(founders)
+        .set({ storyNumber: founder.storyNumber })
+        .where(eq(founders.slug, founder.slug));
+      console.log(`  ↻ ${founder.name} (updated story number)`);
+    } else {
+      await db.insert(founders).values(founder);
+      console.log(`  ✓ ${founder.name}`);
+    }
   }
   console.log("Done.");
 }

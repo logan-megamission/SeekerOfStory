@@ -10,7 +10,7 @@ const links = [
   { href: "/founders", label: "Founding Stories" },
   { href: "/listen", label: "Listen" },
   { href: "/blog", label: "Blog" },
-  { href: "/seek", label: "Find My Mentor" },
+  { href: "/seek", label: "Make an Impact" },
 ];
 
 export function Nav() {

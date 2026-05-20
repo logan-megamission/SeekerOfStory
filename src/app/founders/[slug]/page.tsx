@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { db } from "@/db";
-import { founders } from "@/db/schema";
+import { founders, posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { VideoEmbed } from "@/components/shared/VideoEmbed";
 import { BlueprintGrid } from "@/components/founders/BlueprintGrid";
@@ -73,6 +73,17 @@ export default async function FounderPage({ params }: Props) {
   }
 
   if (!founder || founder.status !== "published") notFound();
+
+  // Find related blog post by this founder
+  let relatedPost: { slug: string; title: string } | null = null;
+  try {
+    const [post] = await db
+      .select({ slug: posts.slug, title: posts.title })
+      .from(posts)
+      .where(eq(posts.founderId, founder.id))
+      .limit(1);
+    relatedPost = post ?? null;
+  } catch { /* ok */ }
 
   const SPOTIFY_SHOW = "https://open.spotify.com/show/033gnWzSSrzzX3j6xw4Q4u";
   const APPLE_PODCASTS = "https://podcasts.apple.com/us/podcast/sos-susy-gordon-seeker-of-story/id1896645220";
@@ -216,6 +227,31 @@ export default async function FounderPage({ params }: Props) {
                 <span className="flex-1 h-px bg-sos-border" />
               </div>
               <BlueprintGrid items={founder.blueprint as import("@/db/schema").BlueprintItem[]} />
+            </div>
+          )}
+
+          {/* Related blog post CTA */}
+          {relatedPost && (
+            <div className="mb-8 bg-cream border-l-[3px] border-gold px-6 py-5">
+              <span
+                className="block text-[0.56rem] font-semibold tracking-[0.2em] uppercase text-gold mb-2"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                Go Deeper
+              </span>
+              <p
+                className="text-[0.82rem] text-charcoal font-light mb-3"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                {relatedPost.title}
+              </p>
+              <Link
+                href={`/blog/${relatedPost.slug}`}
+                className="text-[0.62rem] font-semibold tracking-[0.18em] uppercase text-gold-dark border-b border-gold-light pb-0.5 hover:text-gold hover:border-gold transition-colors"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                Read the Full Story →
+              </Link>
             </div>
           )}
 

@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { BtnPrimary } from "@/components/shared/BtnPrimary";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { LocalBusinessSchema } from "@/components/seo/JsonLd";
 
@@ -18,18 +16,18 @@ export const metadata = {
 const PILLARS = [
   {
     num: "01",
-    title: "The Founder Gives",
-    body: "Founders who've made the leap donate their blueprint — not money, but story. Who they were. What they built. Why they built it. How they did it. And the real vendors, costs, and contacts that made it possible.",
+    title: "Founders Give",
+    body: "Founders give because they're finally in a position to give freely. They share who they were, what they're building, why they're building it, and the lessons that shaped the journey.",
   },
   {
     num: "02",
-    title: "The Platform Holds",
-    body: "Seeker of Story collects, curates, and organizes these blueprints into a searchable database. Every profile is built through a personal process — an intro call, a discovery session, and a Ride & Share interview. Founders just show up and share.",
+    title: "SOS Becomes the Bridge",
+    body: "It carries stories, blueprints, wisdom, and lived experience from people willing to share what they've learned so someone else doesn't have to walk alone.",
   },
   {
     num: "03",
-    title: "The Seeker Finds",
-    body: "Anyone in transition can search the database freely. No subscription. No paywall. No gatekeeping. Type where you're going — we'll surface who's already been there. The mentor finds you.",
+    title: "The Seeker Finds Hope",
+    body: "Anyone in transition can search the Becoming Database freely. No monthly subscriptions. No gatekeeping.",
   },
 ];
 
@@ -50,9 +48,11 @@ export default function AboutPage() {
           className="text-white/55 text-[0.9rem] font-light leading-[1.9] max-w-[560px] mx-auto"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          Because when you&apos;re in transition — unemployed, burned out, or standing at the
-          edge of a leap — you can&apos;t afford paywalls. But somewhere out there is a founder
-          who walked your exact path and is ready to be your bridge.
+          When you&apos;re in transition, unemployed, burned out, or standing at the{" "}
+          <em className="italic text-gold/80">edge of a leap</em>, you can&apos;t afford high,
+          overrated, astronomical monthly subscriptions. But somewhere out there is a founder
+          who already walked <em className="italic text-gold/80">your exact path</em> and is
+          ready to become your mentor.
         </p>
       </section>
 
@@ -94,6 +94,18 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+
+          <p
+            className="text-center text-[0.82rem] font-light leading-[1.9] text-mid-gray max-w-[680px] mx-auto mt-12 border-t border-sos-border pt-10"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            This isn&apos;t about accolades or revenue sharing. It&apos;s about a founder unknowingly
+            becoming a voice of hope to someone.{" "}
+            <em className="italic text-charcoal">
+              There is life and death in the power of the tongue, and the founder who shares
+              their story has already spoken life.
+            </em>
+          </p>
         </div>
       </section>
 
@@ -121,67 +133,12 @@ export default function AboutPage() {
           className="text-[0.82rem] font-light text-mid-gray leading-[1.9] max-w-[600px] mx-auto"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          This is not about accolades. It&apos;s not about revenue sharing. It&apos;s about a
-          founder becoming a motivational speaker to someone who just lost everything — and not
-          even knowing it. There is life and death in the power of the tongue. The founder who
-          shares their story has instantly spoken life.
+          This isn&apos;t about accolades or revenue sharing. It&apos;s about a founder unknowingly
+          becoming a voice of hope to someone. There is life and death in the power of the
+          tongue, and the founder who shares their story has already spoken life.
         </p>
       </section>
 
-      {/* Susy section */}
-      <section className="bg-charcoal py-20 px-8">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-2 gap-20 items-center max-md:grid-cols-1 max-md:gap-12">
-          <div className="relative">
-            <Image
-              src="https://images.squarespace-cdn.com/content/6717e9edf71cd7695982c081/8a2092e9-222d-46e6-9f7a-e7634cb350a5/ChatGPT+Image+Feb+4%2C+2026%2C+07_36_13+PM.png?content-type=image%2Fpng"
-              alt="Susy Gordon"
-              width={500}
-              height={667}
-              className="w-full aspect-[3/4] object-cover object-top"
-            />
-            <div className="absolute -top-3 -left-3 w-full h-full border border-gold/30 -z-10" />
-          </div>
-
-          <div>
-            <SectionLabel>The Founder</SectionLabel>
-            <h2
-              className="font-serif text-[clamp(2rem,4vw,3.5rem)] font-light text-white mb-6"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              Meet <em className="italic text-gold">Susy Gordon</em>
-            </h2>
-            <p
-              className="text-[0.88rem] leading-[1.9] text-white/60 font-light mb-5"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              Susy Gordon is a story collector. She exists to find people&apos;s stories and
-              share them so others can find their path. The car is her studio. The road is her
-              stage. Every passenger carries a blueprint someone else needs.
-            </p>
-            <p
-              className="text-[0.88rem] leading-[1.9] text-white/60 font-light mb-5"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              What started in ministry — interviewing passengers, collecting stories, giving
-              them freely — has evolved into a full media and production company. The mission
-              hasn&apos;t changed. The model has.
-            </p>
-            <p
-              className="text-[0.88rem] leading-[1.9] text-white/60 font-light mb-8"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              Seeker of Story is the non-profit expression of that mission. Powered by Mega
-              Mission Media. Fueled by Matthew 7:7.
-            </p>
-            <BtnPrimary
-              href="https://calendly.com/susy-megamissionmedia/30min"
-              external
-            >
-              Schedule a Call with Susy →
-            </BtnPrimary>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

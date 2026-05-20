@@ -130,16 +130,22 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* CTA back to founder */}
         {post.founderSlug && (
-          <div className="mt-16 pt-8 border-t border-sos-border text-center">
-            <p className="text-[0.72rem] text-mid-gray mb-4" style={{ fontFamily: "var(--font-sans)" }}>
-              Want to learn more about this founder&apos;s journey?
-            </p>
+          <div className="mt-16 pt-8 border-t border-sos-border flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href={`/founders/${post.founderSlug}`}
               className="text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-gold-dark border border-gold-light px-6 py-3 inline-block hover:bg-gold hover:text-white transition-all duration-200"
               style={{ fontFamily: "var(--font-sans)" }}
             >
-              Read Their Full Story →
+              View Their Blueprint →
+            </Link>
+            <Link
+              href="https://calendly.com/susy-megamissionmedia/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[0.68rem] font-semibold tracking-[0.2em] uppercase bg-gold text-white px-6 py-3 inline-block hover:bg-gold-dark transition-all duration-200"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              Find Your Mentor →
             </Link>
           </div>
         )}

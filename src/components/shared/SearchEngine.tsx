@@ -62,14 +62,8 @@ export function SearchEngine() {
           className="font-serif text-[1.5rem] font-normal text-charcoal mb-1"
           style={{ fontFamily: "var(--font-serif)" }}
         >
-          Find My Mentor
+          SEARCH THE BECOMING DATABASE
         </h2>
-        <p
-          className="text-[0.72rem] font-light text-mid-gray mb-7"
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          Tell us where you&apos;re going — we&apos;ll find who&apos;s already been there.
-        </p>
 
         <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-end max-md:grid-cols-1">
           <div className="flex flex-col gap-2 text-left">
@@ -128,7 +122,7 @@ export function SearchEngine() {
           className="mt-6 w-full bg-gold text-white py-[1.1rem] text-[0.7rem] font-semibold tracking-[0.22em] uppercase transition-colors hover:bg-gold-dark disabled:bg-light-gray disabled:text-mid-gray disabled:cursor-not-allowed"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          {loading ? "Finding your mentors…" : "Search the Founder Database →"}
+          {loading ? "Finding your mentors…" : "Search the Becoming Database →"}
         </button>
       </div>
 

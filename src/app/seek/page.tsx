@@ -8,8 +8,8 @@ export default function SeekPage() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    currentSituation: "",
-    desiredDirection: "",
+    bestTime: "",
+    websiteLinkedin: "",
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -22,14 +22,14 @@ export default function SeekPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name || !form.email || !form.desiredDirection) {
-      setError("Please fill in all required fields.");
+    if (!form.name || !form.email) {
+      setError("Please fill in your name and email.");
       return;
     }
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/seek", {
+      const res = await fetch("/api/give-back", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -49,16 +49,16 @@ export default function SeekPage() {
         <div className="max-w-[560px]">
           <span className="block text-[0.62rem] font-semibold tracking-[0.3em] uppercase text-gold mb-4"
             style={{ fontFamily: "var(--font-sans)" }}>
-            Your Story Has Been Received
+            We Received Your Story
           </span>
           <h1 className="font-serif text-[clamp(2rem,4vw,3rem)] font-light text-charcoal mb-6"
             style={{ fontFamily: "var(--font-serif)" }}>
-            We&apos;re finding your <em className="italic text-gold">mentor match</em>
+            Thank you for <em className="italic text-gold">giving back</em>
           </h1>
           <p className="text-[0.85rem] font-light leading-[1.9] text-mid-gray mb-8"
             style={{ fontFamily: "var(--font-sans)" }}>
-            Susy will review your submission and connect you with the founder whose path most
-            closely mirrors yours. Check your email — we&apos;ll be in touch soon.
+            We&apos;ll review your submission and be in touch soon. Your story has the power
+            to become someone else&apos;s blueprint.
           </p>
           <span className="text-[0.65rem] font-medium tracking-[0.2em] uppercase text-gold-dark border border-gold-light px-5 py-2 inline-block"
             style={{ fontFamily: "var(--font-sans)" }}>
@@ -72,16 +72,15 @@ export default function SeekPage() {
   return (
     <>
       <section className="bg-charcoal py-22 px-8 text-center">
-        <SectionLabel light>Free. No Paywalls. No Gatekeeping.</SectionLabel>
+        <SectionLabel light>MAKE AN IMPACT</SectionLabel>
         <h1 className="font-serif text-[clamp(2rem,4vw,3.5rem)] font-light text-white max-w-[700px] mx-auto mb-6"
           style={{ fontFamily: "var(--font-serif)" }}>
-          Tell us your story.<br />
-          <em className="italic text-gold">We&apos;ll find your mentor.</em>
+          Ready to make a <em className="italic text-gold">mega impact?</em>
         </h1>
         <p className="text-white/55 text-[0.9rem] font-light leading-[1.9] max-w-[560px] mx-auto"
           style={{ fontFamily: "var(--font-sans)" }}>
-          Fill out the form below. Susy will personally review your submission and connect you
-          with the founder whose journey most closely mirrors where you want to go.
+          You built something worth sharing. Your story, blueprint, lessons learned, and lived
+          experience could become the bridge that helps someone else keep going.
         </p>
       </section>
 
@@ -121,31 +120,31 @@ export default function SeekPage() {
 
             <div>
               <label className={label} style={{ fontFamily: "var(--font-sans)" }}>
-                Where are you right now?{" "}
+                Best date and time to reach you{" "}
                 <span className="text-[0.52rem] text-mid-gray normal-case tracking-normal font-normal">(optional)</span>
               </label>
-              <textarea
-                value={form.currentSituation}
-                onChange={(e) => setForm({ ...form, currentSituation: e.target.value })}
-                placeholder="e.g. I've been in corporate tech for 12 years and recently got laid off..."
-                rows={3}
-                className={`${input} resize-none`}
+              <input
+                type="text"
+                value={form.bestTime}
+                onChange={(e) => setForm({ ...form, bestTime: e.target.value })}
+                placeholder="e.g. Weekdays after 3pm CT"
+                className={input}
                 style={{ fontFamily: "var(--font-sans)" }}
               />
             </div>
 
             <div>
               <label className={label} style={{ fontFamily: "var(--font-sans)" }}>
-                Where do you want to go? *
+                Website / LinkedIn{" "}
+                <span className="text-[0.52rem] text-mid-gray normal-case tracking-normal font-normal">(optional)</span>
               </label>
-              <textarea
-                value={form.desiredDirection}
-                onChange={(e) => setForm({ ...form, desiredDirection: e.target.value })}
-                placeholder="e.g. I want to launch my own law practice / tour company / media brand in DFW..."
-                rows={3}
-                className={`${input} resize-none`}
+              <input
+                type="text"
+                value={form.websiteLinkedin}
+                onChange={(e) => setForm({ ...form, websiteLinkedin: e.target.value })}
+                placeholder="https://"
+                className={input}
                 style={{ fontFamily: "var(--font-sans)" }}
-                required
               />
             </div>
 
@@ -156,14 +155,14 @@ export default function SeekPage() {
             )}
 
             <BtnPrimary type="submit" disabled={loading} className="self-start">
-              {loading ? "Submitting…" : "Find My Mentor →"}
+              {loading ? "Submitting…" : "I Want to Give Back →"}
             </BtnPrimary>
           </form>
         </div>
 
         <p className="text-center text-[0.72rem] text-mid-gray mt-8 font-light"
           style={{ fontFamily: "var(--font-sans)" }}>
-          Your information is never sold or shared. This platform is free. Always.
+          No memberships. No gatekeeping. Just shared stories, lived experience, and people helping people.
         </p>
       </section>
     </>

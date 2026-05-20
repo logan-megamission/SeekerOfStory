@@ -63,7 +63,7 @@ export default async function FoundersPage() {
     <>
       {/* Header */}
       <section className="bg-charcoal py-22 px-8 text-center">
-        <SectionLabel light>Proof of Concept — Already in Flight</SectionLabel>
+        <SectionLabel light>THIS MISSION IS NO LONGER PROOF OF CONCEPT</SectionLabel>
         <h1
           className="font-serif text-[clamp(2rem,4vw,3.5rem)] font-light text-white max-w-[700px] mx-auto mb-6"
           style={{ fontFamily: "var(--font-serif)" }}
@@ -74,8 +74,7 @@ export default async function FoundersPage() {
           className="text-white/55 text-[0.9rem] font-light leading-[1.9] max-w-[560px] mx-auto"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          These founders have already documented their roadmap. Their Becoming Stories are
-          live on YouTube and available on all major podcast platforms.
+          Living blueprints from people who chose to document the becoming, not just the outcome.
         </p>
       </section>
 
@@ -107,20 +106,20 @@ export default async function FoundersPage() {
                 />
               ))}
               {/* Placeholder spots up to 10 */}
-              {Array.from({ length: Math.max(0, 10 - allFounders.length) }).map((_, i) => (
+              {Array.from({ length: Math.max(0, 6 - allFounders.length) }).map((_, i) => (
                 <div
                   key={`placeholder-${i}`}
-                  className="bg-cream opacity-45"
+                  className="bg-cream opacity-40"
                 >
-                  <div className="w-full h-[300px] bg-light-gray flex items-center justify-center">
+                  <div className="w-full h-[160px] bg-light-gray flex items-center justify-center">
                     <span
-                      className="font-serif italic text-mid-gray text-[1.1rem]"
+                      className="font-serif italic text-mid-gray text-[0.9rem]"
                       style={{ fontFamily: "var(--font-serif)" }}
                     >
                       Story Coming Soon
                     </span>
                   </div>
-                  <div className="p-8 border-t-[3px] border-gold">
+                  <div className="p-6 border-t-[3px] border-gold">
                     <span
                       className="block text-[0.56rem] font-semibold tracking-[0.2em] uppercase text-gold mb-2"
                       style={{ fontFamily: "var(--font-sans)" }}
@@ -128,16 +127,16 @@ export default async function FoundersPage() {
                       Founding Story #{String(allFounders.length + i + 1).padStart(3, "0")}
                     </span>
                     <h3
-                      className="font-serif text-[1.75rem] font-normal text-mid-gray mb-1"
+                      className="font-serif text-[1.4rem] font-normal text-mid-gray mb-1"
                       style={{ fontFamily: "var(--font-serif)" }}
                     >
                       Your Name Here
                     </h3>
                     <p
-                      className="text-[0.8rem] text-mid-gray font-light italic mb-5"
+                      className="text-[0.75rem] text-mid-gray font-light italic mb-4"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
-                      Are you one of the Founding 10? Your story belongs here.
+                      Your story belongs here.
                     </p>
                     <a
                       href="https://calendly.com/susy-megamissionmedia/30min"

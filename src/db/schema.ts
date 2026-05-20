@@ -168,6 +168,20 @@ export const seekers = pgTable("seekers", {
 
 export type Seeker = typeof seekers.$inferSelect;
 
+// ─── Founder Leads ────────────────────────────────────────────────────────────
+
+export const founderLeads = pgTable("founder_leads", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  bestTime: text("best_time"),
+  websiteLinkedin: text("website_linkedin"),
+  status: text("status").notNull().default("new"),
+  submittedAt: timestamp("submitted_at").notNull().defaultNow(),
+});
+
+export type FounderLead = typeof founderLeads.$inferSelect;
+
 // ─── Content Blocks ───────────────────────────────────────────────────────────
 
 export const contentBlocks = pgTable("content_blocks", {
