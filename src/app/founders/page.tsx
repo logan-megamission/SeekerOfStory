@@ -54,7 +54,8 @@ export default async function FoundersPage() {
         whoTheyWere: founders.whoTheyWere,
       })
       .from(founders)
-      .where(eq(founders.status, "published"));
+      .where(eq(founders.status, "published"))
+      .orderBy(founders.storyNumber);
   } catch {
     // DB not connected yet
   }
