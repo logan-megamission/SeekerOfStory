@@ -158,7 +158,7 @@ export default async function FounderPage({ params }: Props) {
 
       {/* Body */}
       <section className="bg-warm-white py-0">
-        <div className="max-w-[820px] mx-auto px-10 py-10">
+        <div className="max-w-[820px] mx-auto px-4 md:px-10 py-10">
 
           {/* Video */}
           {founder.youtubeUrl && <VideoEmbed url={founder.youtubeUrl} />}

@@ -64,7 +64,7 @@ export default async function BlogPage() {
       <section className="bg-warm-white py-16 px-8">
         <div className="max-w-[1100px] mx-auto">
           {allPosts.length > 0 ? (
-            <div className={`grid gap-0.5 bg-sos-border ${allPosts.length === 1 ? "grid-cols-1" : allPosts.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+            <div className={`grid gap-0.5 bg-sos-border max-md:grid-cols-1 ${allPosts.length === 1 ? "grid-cols-1" : allPosts.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
               {allPosts.map((post) => (
                 <Link
                   key={post.id}

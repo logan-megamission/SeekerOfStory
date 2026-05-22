@@ -31,7 +31,7 @@ function ApplePodcastsIcon() {
 
 export function Footer() {
   return (
-    <footer className="bg-charcoal text-white/35 text-center py-10 px-6 text-[0.68rem] tracking-[0.1em]">
+    <footer className="bg-charcoal text-white/35 text-center py-10 px-4 text-[0.68rem] tracking-[0.1em]">
       <div className="flex items-center justify-center gap-6 mb-6">
         <Link
           href={SPOTIFY_SHOW}
@@ -69,14 +69,15 @@ export function Footer() {
       <br />
       <p>
         Powered by <strong className="text-gold">Mega Mission Media</strong>
-        &nbsp;·&nbsp;
+      </p>
+      <p className="mt-1">
         <Link href="tel:8178608989" className="text-gold hover:text-gold-light transition-colors">
           817-860-8989
         </Link>
         &nbsp;·&nbsp; megamissionmedia.com
       </p>
       <br />
-      <p>© 2026 Seeker of Story. All rights reserved. No paywalls. No subscriptions. Always free.</p>
+      <p className="max-w-xs mx-auto leading-relaxed">© 2026 Seeker of Story. No paywalls. Always free.</p>
     </footer>
   );
 }
