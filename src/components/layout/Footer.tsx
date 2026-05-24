@@ -76,6 +76,11 @@ export function Footer() {
         </Link>
         &nbsp;·&nbsp; megamissionmedia.com
       </p>
+      <p className="mt-4">
+        <Link href="/fund" className="text-gold hover:text-gold-light transition-colors">
+          Fund the Mission
+        </Link>
+      </p>
       <br />
       <p className="max-w-xs mx-auto leading-relaxed">© 2026 Seeker of Story. No paywalls. Always free.</p>
     </footer>

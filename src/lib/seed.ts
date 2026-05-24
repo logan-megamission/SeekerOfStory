@@ -1,11 +1,13 @@
 import { db } from "@/db";
 import { founders } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { FOUNDER_PHOTOS } from "./founder-photos";
 
 const SEED_FOUNDERS = [
   {
     slug: "susy-gordon",
     storyNumber: 1,
+    photoUrl: FOUNDER_PHOTOS["susy-gordon"],
     name: "Susy Gordon",
     businessName: "Mega Mission Media",
     sector: "Media" as const,
@@ -35,6 +37,7 @@ const SEED_FOUNDERS = [
   {
     slug: "carrie-carter",
     storyNumber: 2,
+    photoUrl: FOUNDER_PHOTOS["carrie-carter"],
     name: "Carrie Carter",
     businessName: "Cowtown Tour Company · ACN Entrepreneur",
     sector: "Hospitality" as const,
@@ -65,6 +68,7 @@ const SEED_FOUNDERS = [
   {
     slug: "yoel-zehaie",
     storyNumber: 3,
+    photoUrl: FOUNDER_PHOTOS["yoel-zehaie"],
     name: "Yoel Zehaie",
     businessName: "Zehaie Law",
     sector: "Legal" as const,
@@ -95,6 +99,7 @@ const SEED_FOUNDERS = [
   {
     slug: "lena-killion",
     storyNumber: 4,
+    photoUrl: FOUNDER_PHOTOS["lena-killion"],
     name: "Lena Killion",
     businessName: "Coming Soon",
     sector: "Other" as const,
@@ -127,9 +132,12 @@ async function seed() {
     if (existing.length > 0) {
       await db
         .update(founders)
-        .set({ storyNumber: founder.storyNumber })
+        .set({
+          storyNumber: founder.storyNumber,
+          photoUrl: founder.photoUrl ?? null,
+        })
         .where(eq(founders.slug, founder.slug));
-      console.log(`  ↻ ${founder.name} (updated story number)`);
+      console.log(`  ↻ ${founder.name} (updated)`);
     } else {
       await db.insert(founders).values(founder);
       console.log(`  ✓ ${founder.name}`);

@@ -92,6 +92,7 @@ export const founders = pgTable("founders", {
   name: text("name").notNull(),
   businessName: text("business_name").notNull(),
   photoUrl: text("photo_url"),
+  photoPosition: text("photo_position"),
   sector: sectorEnum("sector").notNull().default("Other"),
   industryTags: text("industry_tags").array().notNull().default([]),
   dfwCity: dfwCityEnum("dfw_city").notNull().default("Fort Worth"),
@@ -181,6 +182,20 @@ export const founderLeads = pgTable("founder_leads", {
 });
 
 export type FounderLead = typeof founderLeads.$inferSelect;
+
+// ─── Community Contributions ──────────────────────────────────────────────────
+
+export const communityContributions = pgTable("community_contributions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  contributionType: text("contribution_type").notNull(),
+  message: text("message"),
+  status: text("status").notNull().default("new"),
+  submittedAt: timestamp("submitted_at").notNull().defaultNow(),
+});
+
+export type CommunityContribution = typeof communityContributions.$inferSelect;
 
 // ─── Content Blocks ───────────────────────────────────────────────────────────
 

@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { VideoEmbed } from "@/components/shared/VideoEmbed";
 import { BlueprintGrid } from "@/components/founders/BlueprintGrid";
 import { JourneyPills } from "@/components/founders/JourneyPills";
+import { FounderPhoto } from "@/components/founders/FounderPhoto";
 import { BtnPrimary } from "@/components/shared/BtnPrimary";
 import { FounderSchema, PodcastEpisodeSchema } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
@@ -118,11 +119,11 @@ export default async function FounderPage({ params }: Props) {
           <div className="grid grid-cols-[200px_1fr] max-md:grid-cols-1">
             {founder.photoUrl ? (
               <div className="relative w-[200px] h-[270px] max-md:w-full max-md:h-[220px]">
-                <Image
+                <FounderPhoto
                   src={founder.photoUrl}
                   alt={founder.name}
-                  fill
-                  className="object-cover object-top"
+                  photoPosition={founder.photoPosition}
+                  sizes="200px"
                 />
               </div>
             ) : (

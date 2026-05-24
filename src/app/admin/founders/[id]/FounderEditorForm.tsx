@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import { saveFounder, uploadPhoto } from "./actions";
+import { FounderPhoto } from "@/components/founders/FounderPhoto";
 import type { Founder, BlueprintItem } from "@/db/schema";
 
 const SECTORS = ["Legal","Hospitality","Tech","Real Estate","Health","Media","Retail","Finance","Other"];
@@ -109,7 +110,12 @@ export function FounderEditorForm({ founder }: Props) {
           <span className={label} style={{ fontFamily: "var(--font-sans)" }}>Photo</span>
           <div className="relative w-full aspect-[3/4] bg-light-gray overflow-hidden">
             {photoUrl ? (
-              <Image src={photoUrl} alt={form.name} fill className="object-cover object-top" />
+              <FounderPhoto
+                src={photoUrl}
+                alt={form.name}
+                photoPosition={founder.photoPosition ?? undefined}
+                sizes="120px"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <span className="text-[0.7rem] text-mid-gray italic">No photo</span>

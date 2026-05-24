@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { JourneyPills } from "./JourneyPills";
+import { FounderPhoto } from "./FounderPhoto";
 import type { Founder } from "@/db/schema";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
     | "transitionTo"
     | "sector"
     | "dfwCity"
-  > & { excerpt?: string };
+  > & { excerpt?: string; photoPosition?: string | null };
 };
 
 export function FounderCard({ founder }: Props) {
@@ -25,12 +25,13 @@ export function FounderCard({ founder }: Props) {
       className="group block bg-cream overflow-hidden border-t-[3px] border-gold no-underline transition-transform duration-300 hover:-translate-y-1"
     >
       {founder.photoUrl ? (
-        <div className="relative w-full h-[300px] overflow-hidden">
-          <Image
+        <div className="relative w-full aspect-[4/5] overflow-hidden">
+          <FounderPhoto
             src={founder.photoUrl}
             alt={founder.name}
-            fill
-            className="object-cover object-top grayscale-[20%] transition-all duration-300 group-hover:grayscale-0"
+            photoPosition={founder.photoPosition}
+            className="object-cover grayscale-[20%] transition-all duration-300 group-hover:grayscale-0"
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
       ) : (
