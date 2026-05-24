@@ -1,8 +1,6 @@
-import { db } from "@/db";
-import { founders } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { FounderCard } from "@/components/founders/FounderCard";
 import { SectionLabel } from "@/components/shared/SectionLabel";
+import { getPublishedFoundersForList } from "@/lib/get-published-founders";
 
 export const metadata = {
   title: "Founding Stories | Seeker of Story",
@@ -24,41 +22,7 @@ const SECTORS = [
 ];
 
 export default async function FoundersPage() {
-  let allFounders: Array<{
-    id: number;
-    slug: string;
-    storyNumber: number | null;
-    name: string;
-    businessName: string;
-    photoUrl: string | null;
-    sector: "Legal" | "Hospitality" | "Tech" | "Real Estate" | "Health" | "Media" | "Retail" | "Finance" | "Other";
-    dfwCity: "Fort Worth" | "Dallas" | "Arlington" | "Frisco" | "Plano" | "McKinney" | "Irving" | "Garland" | "Grand Prairie" | "Other";
-    transitionFrom: string | null;
-    transitionTo: string | null;
-    whoTheyWere: string | null;
-  }> = [];
-
-  try {
-    allFounders = await db
-      .select({
-        id: founders.id,
-        slug: founders.slug,
-        storyNumber: founders.storyNumber,
-        name: founders.name,
-        businessName: founders.businessName,
-        photoUrl: founders.photoUrl,
-        sector: founders.sector,
-        dfwCity: founders.dfwCity,
-        transitionFrom: founders.transitionFrom,
-        transitionTo: founders.transitionTo,
-        whoTheyWere: founders.whoTheyWere,
-      })
-      .from(founders)
-      .where(eq(founders.status, "published"))
-      .orderBy(founders.storyNumber);
-  } catch {
-    // DB not connected yet
-  }
+  const allFounders = await getPublishedFoundersForList();
 
   return (
     <>

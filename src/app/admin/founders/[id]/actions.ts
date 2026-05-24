@@ -69,12 +69,6 @@ export async function uploadPhoto(formData: FormData): Promise<string> {
 
   if (!file) throw new Error("No file provided");
 
-  const { put } = await import("@vercel/blob");
-
-  const ext = file.name.split(".").pop() ?? "jpg";
-  const blob = await put(`founders/${founderId}-${Date.now()}.${ext}`, file, {
-    access: "public",
-  });
-
-  return blob.url;
+  const { uploadFounderPhotoToBlob } = await import("@/lib/founder-blobs");
+  return uploadFounderPhotoToBlob(file, founderId);
 }

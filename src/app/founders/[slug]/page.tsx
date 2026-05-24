@@ -2,8 +2,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { db } from "@/db";
-import { founders, posts } from "@/db/schema";
+import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { getPublishedFounderBySlug } from "@/lib/get-published-founders";
 import { VideoEmbed } from "@/components/shared/VideoEmbed";
 import { BlueprintGrid } from "@/components/founders/BlueprintGrid";
 import { JourneyPills } from "@/components/founders/JourneyPills";
@@ -16,21 +17,8 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  try {
-    const [f] = await db
-      .select({
-        name: founders.name,
-        businessName: founders.businessName,
-        whoTheyWere: founders.whoTheyWere,
-        transitionFrom: founders.transitionFrom,
-        transitionTo: founders.transitionTo,
-        sector: founders.sector,
-        dfwCity: founders.dfwCity,
-      })
-      .from(founders)
-      .where(eq(founders.slug, slug))
-      .limit(1);
-    if (!f) return {};
+  const f = await getPublishedFounderBySlug(slug);
+  if (f) {
     const title = `${f.name} — ${f.businessName}`;
     const description =
       f.whoTheyWere?.slice(0, 155) ??
@@ -54,37 +42,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
       alternates: { canonical: `https://seekerofstory.com/founders/${slug}` },
     };
-  } catch {
-    return {};
   }
+  return {};
 }
 
 export default async function FounderPage({ params }: Props) {
   const { slug } = await params;
 
-  let founder;
-  try {
-    [founder] = await db
-      .select()
-      .from(founders)
-      .where(eq(founders.slug, slug))
-      .limit(1);
-  } catch {
-    notFound();
-  }
-
-  if (!founder || founder.status !== "published") notFound();
+  const founder = await getPublishedFounderBySlug(slug);
+  if (!founder) notFound();
 
   // Find related blog post by this founder
   let relatedPost: { slug: string; title: string } | null = null;
-  try {
-    const [post] = await db
-      .select({ slug: posts.slug, title: posts.title })
-      .from(posts)
-      .where(eq(posts.founderId, founder.id))
-      .limit(1);
-    relatedPost = post ?? null;
-  } catch { /* ok */ }
+  if (founder.id > 0) {
+    try {
+      const [post] = await db
+        .select({ slug: posts.slug, title: posts.title })
+        .from(posts)
+        .where(eq(posts.founderId, founder.id))
+        .limit(1);
+      relatedPost = post ?? null;
+    } catch {
+      /* ok */
+    }
+  }
 
   const SPOTIFY_SHOW = "https://open.spotify.com/show/033gnWzSSrzzX3j6xw4Q4u";
   const APPLE_PODCASTS = "https://podcasts.apple.com/us/podcast/sos-susy-gordon-seeker-of-story/id1896645220";
