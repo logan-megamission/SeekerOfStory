@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { AdminUserMenu } from "@/components/admin/AdminUserMenu";
+
+const clerkEnabled = Boolean(
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
+);
 
 const NAV = [
   { href: "/admin", label: "Dashboard", exact: true },
@@ -43,11 +48,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className="p-6 border-t border-white/10">
+        <div className="p-6 border-t border-white/10 space-y-4">
+          {clerkEnabled && <AdminUserMenu />}
           <Link
             href="/"
             target="_blank"
-            className="text-[0.6rem] tracking-[0.1em] uppercase text-white/30 hover:text-white/60 transition-colors"
+            className="block text-[0.6rem] tracking-[0.1em] uppercase text-white/30 hover:text-white/60 transition-colors"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             ← View Site
