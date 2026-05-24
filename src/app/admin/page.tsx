@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { founders, seekers, bookings, founderInvites } from "@/db/schema";
+import { founders, seekers, founderInvites } from "@/db/schema";
 import { eq, count } from "drizzle-orm";
 import Link from "next/link";
 
