@@ -1,36 +1,28 @@
 import { db } from "@/db";
-import { founders, seekers, founderInvites } from "@/db/schema";
+import { founders, founderInvites } from "@/db/schema";
 import { eq, count } from "drizzle-orm";
 import Link from "next/link";
 
 async function getStats() {
   try {
-    const [
-      [publishedCount],
-      [draftCount],
-      [newSeekersCount],
-      [pendingInvitesCount],
-    ] = await Promise.all([
+    const [[publishedCount], [draftCount], [pendingInvitesCount]] = await Promise.all([
       db.select({ count: count() }).from(founders).where(eq(founders.status, "published")),
       db.select({ count: count() }).from(founders).where(eq(founders.status, "draft")),
-      db.select({ count: count() }).from(seekers).where(eq(seekers.status, "new")),
       db.select({ count: count() }).from(founderInvites).where(eq(founderInvites.status, "pending")),
     ]);
     return {
       published: publishedCount.count,
       drafts: draftCount.count,
-      newSeekers: newSeekersCount.count,
       pendingInvites: pendingInvitesCount.count,
     };
   } catch {
-    return { published: 0, drafts: 0, newSeekers: 0, pendingInvites: 0 };
+    return { published: 0, drafts: 0, pendingInvites: 0 };
   }
 }
 
 const STAT_CARDS = (stats: Awaited<ReturnType<typeof getStats>>) => [
   { label: "Published Founders", value: stats.published, href: "/admin/founders" },
   { label: "Draft Founders", value: stats.drafts, href: "/admin/founders" },
-  { label: "New Seekers", value: stats.newSeekers, href: "/admin/seekers" },
   { label: "Pending Invites", value: stats.pendingInvites, href: "/admin/invites" },
 ];
 
@@ -54,7 +46,7 @@ export default async function AdminDashboard() {
       </p>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-10 max-md:grid-cols-2">
+      <div className="grid grid-cols-3 gap-4 mb-10 max-md:grid-cols-1">
         {STAT_CARDS(stats).map(({ label, value, href }) => (
           <Link key={label} href={href}
             className="bg-white border border-sos-border p-6 hover:border-gold transition-colors no-underline block">
