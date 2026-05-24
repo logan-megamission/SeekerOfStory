@@ -69,6 +69,7 @@ export const inviteStatusEnum = pgEnum("invite_status", [
   "pending",
   "submitted",
   "published",
+  "cancelled",
 ]);
 
 export const subscriberSourceEnum = pgEnum("subscriber_source", [

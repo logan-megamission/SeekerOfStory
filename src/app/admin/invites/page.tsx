@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { founderInvites } from "@/db/schema";
 import { desc } from "drizzle-orm";
-import { createFounderInvite } from "./actions";
+import { cancelFounderInvite, createFounderInvite } from "./actions";
 
 const SITE_URL = process.env.NEXT_PUBLIC_URL ?? "https://seekerofstory.com";
 
@@ -42,6 +42,7 @@ export default async function AdminInvitesPage() {
       pending: "bg-yellow-100 text-yellow-800",
       submitted: "bg-blue-100 text-blue-800",
       published: "bg-green-100 text-green-800",
+      cancelled: "bg-gray-100 text-gray-500",
     };
     return map[status] ?? "bg-gray-100 text-gray-800";
   };
@@ -139,15 +140,32 @@ export default async function AdminInvitesPage() {
               {invite.submittedAt &&
                 ` · Submitted ${new Date(invite.submittedAt).toLocaleDateString()}`}
             </p>
-            <p
-              className="text-[0.58rem] font-semibold tracking-[0.15em] uppercase text-mid-gray mb-1"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              Invite link
-            </p>
-            <code className="block text-[0.72rem] text-charcoal bg-cream border border-sos-border px-3 py-2 break-all">
-              {inviteUrl(invite.token)}
-            </code>
+            {invite.status !== "cancelled" && (
+              <>
+                <p
+                  className="text-[0.58rem] font-semibold tracking-[0.15em] uppercase text-mid-gray mb-1"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  Invite link
+                </p>
+                <code className="block text-[0.72rem] text-charcoal bg-cream border border-sos-border px-3 py-2 break-all">
+                  {inviteUrl(invite.token)}
+                </code>
+              </>
+            )}
+
+            {invite.status === "pending" && (
+              <form action={cancelFounderInvite} className="mt-4">
+                <input type="hidden" name="id" value={invite.id} />
+                <button
+                  type="submit"
+                  className="text-[0.6rem] font-semibold tracking-[0.12em] uppercase px-3 py-1.5 border border-red-200 text-red-700 hover:bg-red-50 transition-colors"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  Cancel invite
+                </button>
+              </form>
+            )}
           </div>
         ))}
 

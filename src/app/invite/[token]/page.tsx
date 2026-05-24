@@ -52,6 +52,21 @@ export default async function FounderInvitePage({ params }: Props) {
 
       <section className="bg-warm-white py-16 px-8">
         <div className="max-w-[560px] mx-auto text-center">
+          {invite.status === "cancelled" && (
+            <p
+              className="text-[0.84rem] text-mid-gray font-light italic"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              This invite is no longer active. Contact{" "}
+              <a
+                href="mailto:hello@seekerofstory.com"
+                className="text-teal hover:text-gold-dark transition-colors"
+              >
+                hello@seekerofstory.com
+              </a>{" "}
+              if you have questions.
+            </p>
+          )}
           {invite.status === "pending" && (
             <>
               <p
