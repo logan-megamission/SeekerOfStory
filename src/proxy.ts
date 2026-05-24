@@ -9,6 +9,9 @@ const isClerkConfigured = Boolean(
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 
 const clerkHandler = clerkMiddleware(async (auth, req) => {
+  if (req.nextUrl.pathname.startsWith("/sign-up")) {
+    return NextResponse.redirect(new URL("/sign-in", req.url));
+  }
   if (isAdminRoute(req)) {
     await auth.protect();
   }

@@ -11,7 +11,7 @@ export default function SignInPage() {
       <SignIn
         routing="path"
         path="/sign-in"
-        signUpUrl="/sign-up"
+        withSignUp={false}
         forceRedirectUrl="/admin"
         fallbackRedirectUrl="/admin"
         appearance={{
@@ -21,6 +21,8 @@ export default function SignInPage() {
             headerTitle: "font-serif font-light",
             formButtonPrimary:
               "bg-charcoal hover:bg-charcoal/90 rounded-none text-[0.7rem] tracking-[0.15em] uppercase",
+            footer: { display: "none" },
+            footerAction: { display: "none" },
           },
         }}
       />

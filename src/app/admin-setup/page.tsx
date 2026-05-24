@@ -84,9 +84,10 @@ export default function AdminSetupPage() {
               <code className="text-[0.75rem] bg-cream px-1">*.netlify.app</code> URL
             </li>
             <li>
-              Clerk → Users → invite your admin accounts (disable public sign-up under
-              Restrictions if you only want invited users)
+              Clerk → Configure → User &amp; authentication → Restrictions → Sign-up mode:{" "}
+              <strong className="text-charcoal font-medium">Restricted</strong> (invite-only)
             </li>
+            <li>Clerk → Users → invite each admin by email</li>
             <li>
               Netlify → Environment variables:{" "}
               <code className="text-[0.75rem] bg-cream px-1">
@@ -106,9 +107,7 @@ export default function AdminSetupPage() {
           </p>
           <pre className="mt-2 p-4 bg-cream border border-sos-border text-[0.7rem] overflow-x-auto">
 {`NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/admin
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/admin`}
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/admin`}
           </pre>
 
           <Link
