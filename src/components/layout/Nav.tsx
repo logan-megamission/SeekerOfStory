@@ -11,7 +11,6 @@ const links = [
   { href: "/founders", label: "Founding Stories" },
   { href: "/listen", label: "Listen" },
   { href: "/blog", label: "Blog" },
-  { href: "/seek", label: "Make an Impact" },
   { href: "/fund", label: "Fund the Mission" },
 ];
 
