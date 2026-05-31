@@ -25,7 +25,7 @@ export const FOUNDERS_SEED: NewFounder[] = [
       { category: "Platform", value: "Seeker of Story" },
       { category: "Mission", value: "Matthew 7:7 — Seek and you shall find" },
     ],
-    youtubeUrl: "https://www.youtube.com/watch?v=iuRwc-qltDw",
+    youtubeUrl: "https://www.youtube.com/watch?v=DvRAK2AMNt4",
     spotifyEpisodeUrl: null,
     applePodcastUrl: null,
     buzzsproutUrl: null,
