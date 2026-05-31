@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 
 async function run() {
   await db.update(founders)
-    .set({ youtubeUrl: "https://www.youtube.com/watch?v=iuRwc-qltDw" })
+    .set({ youtubeUrl: "https://www.youtube.com/watch?v=DvRAK2AMNt4" })
     .where(eq(founders.slug, "susy-gordon"));
   console.log("✓ Susy Gordon — YouTube updated");
 

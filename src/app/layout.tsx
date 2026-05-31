@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat, Geist_Mono } from "next/font/google";
-import { Nav } from "@/components/layout/Nav";
-import { Footer } from "@/components/layout/Footer";
 import { AppClerkProvider } from "@/components/providers/AppClerkProvider";
-import { OrganizationSchema } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -85,12 +82,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${montserrat.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <AppClerkProvider>
-          <OrganizationSchema />
-          <Nav />
-          <main className="flex-1 pt-[70px]">{children}</main>
-          <Footer />
-        </AppClerkProvider>
+        <AppClerkProvider>{children}</AppClerkProvider>
       </body>
     </html>
   );

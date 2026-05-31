@@ -61,6 +61,43 @@ export default async function BlogPage() {
         </p>
       </section>
 
+      <section className="bg-charcoal border-t border-white/10 py-14 px-8">
+        <div className="max-w-[1100px] mx-auto">
+          <p className="text-center text-[0.6rem] font-semibold tracking-[0.3em] uppercase text-gold/70 mb-10"
+            style={{ fontFamily: "var(--font-sans)" }}>
+            Why This Work Matters — U.S. Labor Statistics
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10">
+            {[
+              { stat: "6.6M", label: "Americans actively unemployed", source: "BLS, 2024" },
+              { stat: "5.5 mo", label: "Average job search duration", source: "BLS, 2024" },
+              { stat: "85%", label: "Jobs filled through networking", source: "LinkedIn, 2022" },
+              { stat: "70%", label: "Job listings never publicly posted", source: "HBR, 2023" },
+            ].map(({ stat, label, source }) => (
+              <div key={stat} className="bg-charcoal px-8 py-10 text-center">
+                <div className="font-serif text-[clamp(2.2rem,4vw,3rem)] font-light text-gold leading-none mb-3"
+                  style={{ fontFamily: "var(--font-serif)" }}>
+                  {stat}
+                </div>
+                <p className="text-[0.72rem] font-light text-white/70 leading-[1.7] mb-2"
+                  style={{ fontFamily: "var(--font-sans)" }}>
+                  {label}
+                </p>
+                <span className="text-[0.55rem] tracking-[0.2em] uppercase text-white/30 font-medium"
+                  style={{ fontFamily: "var(--font-sans)" }}>
+                  {source}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-[0.72rem] font-light text-white/40 mt-8 max-w-[600px] mx-auto leading-[1.8]"
+            style={{ fontFamily: "var(--font-sans)" }}>
+            Behind every statistic is a person standing at the edge of a leap. These founders wrote
+            their stories so that person wouldn&apos;t have to walk alone.
+          </p>
+        </div>
+      </section>
+
       <section className="bg-warm-white py-16 px-8">
         <div className="max-w-[1100px] mx-auto">
           {allPosts.length > 0 ? (
