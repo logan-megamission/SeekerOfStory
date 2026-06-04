@@ -44,7 +44,12 @@ She is building this so her sons never have to sit in that room without a plan. 
         { category: "Licensed In", value: "TX, IL, CA, FL, PA — Pre-Need Agent + Notary" },
         { category: "Works With", value: "~40 independent funeral homes across TX and multiple states" },
         { category: "Upcoming Event", value: "Speed Networking — May 27th at Brooklyn's, Fort Worth" },
+        { category: "Ride & Share", value: "YouTube + Buzzsprout" },
       ],
+      youtubeUrl: "https://www.youtube.com/watch?v=WXf0HB7Sxd0",
+      spotifyEpisodeUrl: "https://open.spotify.com/episode/4DlANKsZcvjwEsSc5Qy313",
+      applePodcastUrl:
+        "https://podcasts.apple.com/us/podcast/lena-killion-mlk-pre-arrangements-she-took-the-power/id1896645220?i=1000768686251",
       websiteUrl: "https://mlkprearrangements.com",
       contactEmail: "lena@mlkprearrangements.com",
       status: "published",

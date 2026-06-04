@@ -17,6 +17,11 @@ async function run() {
     .set({ youtubeUrl: "https://www.youtube.com/watch?v=aE1aTApYzDg" })
     .where(eq(founders.slug, "yoel-zehaie"));
   console.log("✓ Yoel Zehaie — YouTube updated");
+
+  await db.update(founders)
+    .set({ youtubeUrl: "https://www.youtube.com/watch?v=WXf0HB7Sxd0" })
+    .where(eq(founders.slug, "lena-killion"));
+  console.log("✓ Lena Killion — YouTube updated");
 }
 
 run().catch(console.error);
